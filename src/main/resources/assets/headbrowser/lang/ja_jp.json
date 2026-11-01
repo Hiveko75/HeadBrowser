@@ -29,8 +29,6 @@
   "menu.headbrowser.wide-browse-button": "ヘッドを検索",
 
   "text.config.headbrowser.option.modEnabled": "Modを有効にする",
-  "text.config.headbrowser.option.titleButtonVerticalOffset": "タイトルボタンの垂直位置の調整",
-  "text.config.headbrowser.option.titleButtonHorizontalOffset": "タイトルボタンの水平位置の調整",
   "text.config.headbrowser.option.titleButton": "タイトルボタン",
   "text.config.headbrowser.option.pauseButton": "一時停止ボタン",
   "text.config.headbrowser.option.autoQuery": "入力中に自動検索",
@@ -38,7 +36,6 @@
 
   "text.config.headbrowser.section.advanced": "高度な設定",
   "text.config.headbrowser.option.cacheExpirationTime": "ヘッドの一時保存データの保持期間 (秒)",
-  "text.config.headbrowser.option.offsetMultiplier": "タイトルボタンの位置調整倍率",
 
   "screen.headbrowser.browse.category.alphabet": "アルファベット",
   "screen.headbrowser.browse.category.animals": "動物",

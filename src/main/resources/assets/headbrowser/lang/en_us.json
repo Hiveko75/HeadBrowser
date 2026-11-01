@@ -31,8 +31,6 @@
   "text.config.headbrowser.title": "Head Browser",
 
   "text.config.headbrowser.option.modEnabled": "Mod enabled",
-  "text.config.headbrowser.option.titleButtonVerticalOffset": "Title button offset (Vertical)",
-  "text.config.headbrowser.option.titleButtonHorizontalOffset": "Title button offset (Horizontal)",
   "text.config.headbrowser.option.titleButton": "Title button",
   "text.config.headbrowser.option.pauseButton": "Pause button",
   "text.config.headbrowser.option.autoQuery": "Automatic Query",
@@ -40,7 +38,6 @@
 
   "text.config.headbrowser.section.advanced": "Advanced",
   "text.config.headbrowser.option.cacheExpirationTime": "Head cache expiration time (Seconds)",
-  "text.config.headbrowser.option.offsetMultiplier": "Title button offset multiplier",
 
   "screen.headbrowser.browse.category.alphabet": "Alphabet",
   "screen.headbrowser.browse.category.animals": "Animals",

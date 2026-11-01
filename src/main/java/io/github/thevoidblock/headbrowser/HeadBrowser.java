@@ -3,7 +3,6 @@ package io.github.thevoidblock.headbrowser;
 import io.github.thevoidblock.headbrowser.gui.BrowseScreen;
 import io.github.thevoidblock.headbrowser.gui.BrowserChildCreativeInventoryScreen;
 import io.github.thevoidblock.headbrowser.gui.ErrorScreen;
-import io.github.thevoidblock.headbrowser.gui.widget.BrowseHeadsButton;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -29,7 +28,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -44,9 +42,8 @@ public class HeadBrowser implements ClientModInitializer {
     public static final String ISSUES_URL = "https://github.com/TheVoidBlock/HeadBrowser/issues/new";
     public static final io.github.thevoidblock.headbrowser.HeadBrowserConfig CONFIG = io.github.thevoidblock.headbrowser.HeadBrowserConfig.createAndLoad();
     public static final File MOD_FOLDER = new File(CLIENT.gameDirectory, MOD_ID);
-
-    public static final int BROWSE_BUTTON_OFFSET = 4;
-    public static final Dimension BROWSE_BUTTON_DIMENSIONS = new Dimension(20, 20);
+    
+    public static final int SQUARE_BUTTON_SIDE_LENGTH = 20;
 
     @Override
     public void onInitializeClient() {
@@ -112,31 +109,10 @@ public class HeadBrowser implements ClientModInitializer {
         }
     }
 
-    public static Button createTitleButton(int anchorButtonX, int anchorButtonWidth, int y) {
-        int width = BROWSE_BUTTON_DIMENSIONS.width;
-        int height = BROWSE_BUTTON_DIMENSIONS.height;
-
-        Button button = SpriteIconButton.builder(Component.empty(), _ -> BrowseScreen.open(CLIENT), true)
-                .sprite(Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse"), width, height)
-                .size(width, height)
+    public static Button createBrowseButton() {
+        return SpriteIconButton.builder(Component.empty(), _ -> BrowseScreen.open(CLIENT), true)
+                .sprite(Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse"), SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
+                .size(SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
                 .build();
-
-        button.setPosition(
-                anchorButtonX + anchorButtonWidth + BROWSE_BUTTON_OFFSET + CONFIG.titleButtonHorizontalOffset() * CONFIG.offsetMultiplier(),
-                y + CONFIG.titleButtonVerticalOffset() * CONFIG.offsetMultiplier()
-        );
-
-        return button;
-    }
-
-    public static Button createWideBrowseButton(int width) {
-        return new BrowseHeadsButton(
-                0,
-                0,
-                width,
-                Component.translatable(format("menu.%s.wide-browse-button", MOD_ID)),
-                _ -> BrowseScreen.open(CLIENT),
-                MinecraftHeadsAPI.HEADS.getRandomHead()
-        );
     }
 }

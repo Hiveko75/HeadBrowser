@@ -10,7 +10,10 @@
     "GridLayoutAccessor"
   ],
   "client": [
-    "GameMenuScreenMixin",
+    "PauseScreenMixin",
     "TitleScreenMixin"
-  ]
+  ],
+  "mixinextras": {
+    "minVersion": "0.5.4"
+  }
 }

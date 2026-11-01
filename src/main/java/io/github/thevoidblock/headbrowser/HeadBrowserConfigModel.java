@@ -15,10 +15,7 @@ public class HeadBrowserConfigModel {
     public boolean autoQuery = false;
     public boolean pauseButton = true;
     public boolean titleButton = true;
-    public int titleButtonVerticalOffset = 0;
-    public int titleButtonHorizontalOffset = 0;
 
     @SectionHeader("advanced")
     public long cacheExpirationTime = 86400;
-    public int offsetMultiplier = 24;
 }

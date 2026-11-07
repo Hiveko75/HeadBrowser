@@ -197,12 +197,12 @@ public class BrowseScreen extends BaseUIModelScreen<FlowLayout> {
         ItemComponent headComponent = UIComponents.item(headItem);
         headComponent.mouseDown().subscribe((click, _) -> {
             switch (click.button()) {
-                case 0 -> {
+                case InputConstants.MOUSE_BUTTON_LEFT -> {
                     if(!canGetHeadItem()) break;
                     getItem(headItem);
                 }
 
-                case 1 -> {
+                case InputConstants.MOUSE_BUTTON_RIGHT -> {
                     if(KeyBindings.isKeyPressed(InputConstants.KEY_LSHIFT)) {
                         if(favoritesActive) {
                             favorites.deleteHead(head);
@@ -213,7 +213,7 @@ public class BrowseScreen extends BaseUIModelScreen<FlowLayout> {
                     }
                 }
 
-                case 2 -> CLIENT.gui.setScreen(new ConfirmScreen(Component.translatable("confirm.headbrowser.equip-skin", head.name()), () -> {
+                case InputConstants.MOUSE_BUTTON_MIDDLE -> CLIENT.gui.setScreen(new ConfirmScreen(Component.translatable("confirm.headbrowser.equip-skin", head.name()), () -> {
                     String skinValue = head.value();
                     byte[] skinValueDecodedBytes = Base64.getDecoder().decode(skinValue);
                     String skinValueDecoded = new String(skinValueDecodedBytes, UTF_8);

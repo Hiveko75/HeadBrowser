@@ -5,6 +5,7 @@ on:
     branches: [ "*" ]
   pull_request:
     branches: [ "*" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,6 +21,21 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
+
+      # owo-lib for Minecraft 26.3 is not published on a Maven repository yet:
+      # build the community port (Hiveko75/owo-lib, branch port-26.3) and install it into Maven Local.
+      - name: Check out owo-lib 26.3 port
+        uses: actions/checkout@v4
+        with:
+          repository: Hiveko75/owo-lib
+          ref: port-26.3
+          path: .owo-lib
+
+      - name: Install owo-lib into Maven Local
+        working-directory: .owo-lib
+        run: |
+          chmod +x ./gradlew
+          ./gradlew publishToMavenLocal --no-daemon
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -46,6 +62,21 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
+
+      # owo-lib for Minecraft 26.3 is not published on a Maven repository yet:
+      # build the community port (Hiveko75/owo-lib, branch port-26.3) and install it into Maven Local.
+      - name: Check out owo-lib 26.3 port
+        uses: actions/checkout@v4
+        with:
+          repository: Hiveko75/owo-lib
+          ref: port-26.3
+          path: .owo-lib
+
+      - name: Install owo-lib into Maven Local
+        working-directory: .owo-lib
+        run: |
+          chmod +x ./gradlew
+          ./gradlew publishToMavenLocal --no-daemon
 
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4

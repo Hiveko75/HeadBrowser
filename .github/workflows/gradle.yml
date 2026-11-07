@@ -48,35 +48,3 @@ jobs:
         with:
           name: HeadBrowser Build
           path: build/libs/*.jar
-
-  dependency-submission:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'temurin'
-
-      # owo-lib for Minecraft 26.3 is not published on a Maven repository yet:
-      # build the community port (Hiveko75/owo-lib, branch port-26.3) and install it into Maven Local.
-      - name: Check out owo-lib 26.3 port
-        uses: actions/checkout@v4
-        with:
-          repository: Hiveko75/owo-lib
-          ref: port-26.3
-          path: .owo-lib
-
-      - name: Install owo-lib into Maven Local
-        working-directory: .owo-lib
-        run: |
-          chmod +x ./gradlew
-          ./gradlew publishToMavenLocal --no-daemon
-
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4

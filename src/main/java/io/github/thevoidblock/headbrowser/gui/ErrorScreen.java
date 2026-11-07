@@ -8,7 +8,8 @@ import io.wispforest.owo.ui.core.Color;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
+import com.mojang.blaze3d.Blaze3D;
+import java.net.URI;
 
 import static io.github.thevoidblock.headbrowser.HeadBrowser.*;
 import static java.lang.String.format;
@@ -47,11 +48,11 @@ public class ErrorScreen extends BaseUIModelScreen<FlowLayout> {
         rootComponent.childById(ButtonComponent.class, "issues").onPress(_ ->
                 CLIENT.gui.setScreen(new ConfirmLinkScreen(
                         confirmed -> {
-                            if(confirmed) Util.getPlatform().openUri(ISSUES_URL);
+                            if(confirmed) Blaze3D.openUri(URI.create(ISSUES_URL));
                             CLIENT.gui.setScreen(this);
                         },
                         Component.literal("confirm.headbrowser.open-issues"),
-                        ISSUES_URL,
+                        URI.create(ISSUES_URL),
                         true
         )));
     }

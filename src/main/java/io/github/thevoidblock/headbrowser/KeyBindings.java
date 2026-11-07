@@ -26,6 +26,6 @@ public class KeyBindings {
     }
 
     public static boolean isKeyPressed(int keyCode) {
-        return InputConstants.isKeyDown(CLIENT.getWindow(), keyCode);
+        return InputConstants.isKeyDown(keyCode);
     }
 }

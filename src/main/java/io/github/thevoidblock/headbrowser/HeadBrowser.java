@@ -25,7 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.WorldDataConfiguration;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,7 +99,7 @@ public class HeadBrowser implements ClientModInitializer {
     public static void getItem(ItemStack item) {
         LocalPlayer player = CLIENT.player;
         if(player == null) return;
-        if(KeyBindings.isKeyPressed(GLFW.GLFW_KEY_LEFT_ALT)) CLIENT.gui.setScreen(new BrowserChildCreativeInventoryScreen(CLIENT, CLIENT.gui.screen()));
+        if(KeyBindings.isKeyPressed(InputConstants.KEY_LALT)) CLIENT.gui.setScreen(new BrowserChildCreativeInventoryScreen(CLIENT, CLIENT.gui.screen()));
         else CLIENT.gui.setScreen(new InventoryScreen(player));
         player.containerMenu.setCarried(item);
 

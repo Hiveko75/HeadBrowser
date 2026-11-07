@@ -10,6 +10,13 @@ base {
 }
 
 repositories {
+    // owo-lib 26.3 is not published yet: use the local community-port build (installed by the build launcher)
+    mavenLocal {
+        content {
+            includeModule 'io.wispforest', 'owo-lib'
+            includeModule 'io.wispforest', 'owo-sentinel'
+        }
+    }
     maven { url 'https://maven.wispforest.io/releases/' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.terraformersmc.com/releases/' }

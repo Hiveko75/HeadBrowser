@@ -10,7 +10,7 @@ import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.component.*;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.container.GridLayout;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -99,7 +99,7 @@ public class BrowseScreen extends BaseUIModelScreen<FlowLayout> {
 
         searchBox.keyPress().subscribe(keyCode -> {
             ClientTickScheduler.schedule(_ -> {
-                boolean enter = keyCode.key() == GLFW.GLFW_KEY_ENTER;
+                boolean enter = keyCode.key() == InputConstants.KEY_RETURN;
                 if(CONFIG.autoQuery() || enter) {
                     search(searchBox.getValue(), enter);
                 }
@@ -203,7 +203,7 @@ public class BrowseScreen extends BaseUIModelScreen<FlowLayout> {
                 }
 
                 case 1 -> {
-                    if(KeyBindings.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                    if(KeyBindings.isKeyPressed(InputConstants.KEY_LSHIFT)) {
                         if(favoritesActive) {
                             favorites.deleteHead(head);
                             rebuildDynamic();
@@ -352,7 +352,7 @@ public class BrowseScreen extends BaseUIModelScreen<FlowLayout> {
                     .checked(categories.getOrDefault(category.getKey(), true));
 
             checkbox.onChanged().subscribe(checked -> {
-                if(KeyBindings.isKeyPressed(GLFW.GLFW_KEY_LEFT_ALT)) {
+                if(KeyBindings.isKeyPressed(InputConstants.KEY_LALT)) {
                     HEADS.categories.forEach((id, _) -> categories.put(id, !categories.getOrDefault(id, true)));
                     categories.put(category.getKey(), true);
                 } else {

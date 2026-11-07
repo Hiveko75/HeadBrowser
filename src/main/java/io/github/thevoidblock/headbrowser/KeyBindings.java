@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 import static io.github.thevoidblock.headbrowser.HeadBrowser.CLIENT;
 import static io.github.thevoidblock.headbrowser.HeadBrowser.MOD_ID;
@@ -16,7 +15,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 public class KeyBindings {
     private static final KeyMapping BROWSE_HEADS = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             format("key.%s.%s", MOD_ID, "browse"),
-            GLFW.GLFW_KEY_KP_1,
+            InputConstants.KEY_NUMPAD1,
             new KeyMapping.Category(Identifier.fromNamespaceAndPath(MOD_ID, "main"))
     ));
 

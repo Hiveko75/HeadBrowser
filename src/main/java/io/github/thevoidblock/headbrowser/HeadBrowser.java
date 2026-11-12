@@ -3,16 +3,16 @@ package io.github.thevoidblock.headbrowser;
 import io.github.thevoidblock.headbrowser.gui.BrowseScreen;
 import io.github.thevoidblock.headbrowser.gui.BrowserChildCreativeInventoryScreen;
 import io.github.thevoidblock.headbrowser.gui.ErrorScreen;
+import io.github.thevoidblock.headbrowser.gui.widget.BrowseHeadsButton;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationContext;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.level.ServerPlayer;
@@ -109,10 +109,21 @@ public class HeadBrowser implements ClientModInitializer {
         }
     }
 
+    /**
+     * Square button for the icon rows of the title and pause screens. As in Head Browser up to
+     * 2.6.1, it shows a random head from the downloaded list (a new one each time the screen opens)
+     * instead of a fixed sprite.
+     */
     public static Button createBrowseButton() {
-        return SpriteIconButton.builder(Component.empty(), _ -> BrowseScreen.open(CLIENT), true)
-                .sprite(Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse"), SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
-                .size(SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
-                .build();
+        Button button = new BrowseHeadsButton(
+                0,
+                0,
+                SQUARE_BUTTON_SIDE_LENGTH,
+                Component.empty(),
+                _ -> BrowseScreen.open(CLIENT),
+                MinecraftHeadsAPI.HEADS.getRandomHead()
+        );
+        button.setTooltip(Tooltip.create(Component.translatable(format("menu.%s.wide-browse-button", MOD_ID))));
+        return button;
     }
 }

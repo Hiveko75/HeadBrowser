@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -48,3 +48,17 @@ jobs:
         with:
           name: HeadBrowser Build
           path: build/libs/*.jar
+
+      # Publishes the jar as a release of this fork, tagged with hiveko_release from
+      # gradle.properties, unless that release already exists (only on port-26.3 pushes).
+      - name: Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/port-26.3'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(grep '^hiveko_release=' gradle.properties | cut -d= -f2)
+          [ -n "$TAG" ] || exit 0
+          if gh release view "$TAG" >/dev/null 2>&1; then echo "release $TAG exists"; exit 0; fi
+          JAR=$(ls build/libs/*.jar | grep -v sources)
+          gh release create "$TAG" $JAR --target "$GITHUB_SHA" --title "Head Browser $TAG" \
+            --notes "Unofficial port of [Head Browser](https://modrinth.com/mod/headbrowser) by TheVoidBlock to Minecraft 26.3 (Fabric). The browse button in the title and pause screens shows a random head again (as in 2.6.1). Requires Fabric API, Fabric Language Kotlin and owo-lib (26.3 port)."

@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static io.github.thevoidblock.headbrowser.HeadBrowser.*;
 import static java.lang.String.format;

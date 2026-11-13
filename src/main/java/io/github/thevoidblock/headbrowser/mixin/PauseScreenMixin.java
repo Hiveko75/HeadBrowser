@@ -18,12 +18,16 @@ public class PauseScreenMixin extends Screen {
         super(title);
     }
 
+    // Right after Minecraft's own icons (report bugs, send feedback, friends, player reporting: the
+    // 4th LinearLayout.addChild), so the button comes before the icons other mods add (Mod Menu,
+    // Screenshot Gallery), as on the title screen.
     @Inject(
             method = "createPauseMenu",
             at = @At(
-                    target = "Lnet/minecraft/client/gui/layouts/GridLayout$RowHelper;addChild(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;",
+                    target = "Lnet/minecraft/client/gui/layouts/LinearLayout;addChild(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;",
                     value = "INVOKE",
-                    ordinal = 3
+                    ordinal = 3,
+                    shift = At.Shift.AFTER
             )
     )
     private void addHeadBrowserButton(CallbackInfo ci, @Local(name = "iconButtonRow") LinearLayout iconButtonRow) {

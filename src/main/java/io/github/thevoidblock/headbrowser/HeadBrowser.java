@@ -121,7 +121,7 @@ public class HeadBrowser implements ClientModInitializer {
                 SQUARE_BUTTON_SIDE_LENGTH,
                 Component.empty(),
                 _ -> BrowseScreen.open(CLIENT),
-                MinecraftHeadsAPI.HEADS.getRandomHead()
+                () -> MinecraftHeadsAPI.HEADS.getRandomHead()
         );
         button.setTooltip(Tooltip.create(Component.translatable(format("menu.%s.wide-browse-button", MOD_ID))));
         return button;

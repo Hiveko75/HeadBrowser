@@ -117,8 +117,6 @@ public class HeadBrowser implements ClientModInitializer {
      */
     public static Button createBrowseButton() {
         Button button = new BrowseHeadsButton(
-                0,
-                0,
                 SQUARE_BUTTON_SIDE_LENGTH,
                 Component.empty(),
                 _ -> BrowseScreen.open(CLIENT),

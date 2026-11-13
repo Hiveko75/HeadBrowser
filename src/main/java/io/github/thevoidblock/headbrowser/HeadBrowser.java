@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screens.worldselection.WorldCreationContext;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.level.ServerPlayer;
@@ -111,8 +112,8 @@ public class HeadBrowser implements ClientModInitializer {
 
     /**
      * Square button for the icon rows of the title and pause screens. As in Head Browser up to
-     * 2.6.1, it shows a random head from the downloaded list (a new one each time the screen opens)
-     * instead of a fixed sprite.
+     * 2.6.1, it shows a random head from the downloaded list (a new one each time the screen opens);
+     * until the list is downloaded it shows the strawberry icon of Head Browser 2.6.2+.
      */
     public static Button createBrowseButton() {
         Button button = new BrowseHeadsButton(
@@ -121,7 +122,9 @@ public class HeadBrowser implements ClientModInitializer {
                 SQUARE_BUTTON_SIDE_LENGTH,
                 Component.empty(),
                 _ -> BrowseScreen.open(CLIENT),
-                () -> MinecraftHeadsAPI.HEADS.getRandomHead()
+                // null until the head list is downloaded: the button shows the strawberry icon until then
+                () -> MinecraftHeadsAPI.HEADS.data.isEmpty() ? null : MinecraftHeadsAPI.HEADS.getRandomHead(),
+                Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse")
         );
         button.setTooltip(Tooltip.create(Component.translatable(format("menu.%s.wide-browse-button", MOD_ID))));
         return button;

@@ -13,13 +13,11 @@ public class Styler {
         MutableText infoText = Text.translatable("tooltip.headbrowser.head-options");
         infoText.setStyle(Style.EMPTY.withBold(false).withColor(Formatting.WHITE));
 
-        StringBuilder tagsText = new StringBuilder();
-        for(String tag : tags) {
-            tagsText.append(tag);
-            tagsText.append(", ");
-        }
-        tagsText.delete(tagsText.length() - 2, tagsText.length() - 1);
-        MutableText categoryInfoText = Text.translatable("tooltip.headbrowser.head-category-tags", category.asString(), tagsText);
+        // The current Minecraft Heads API has no tags, so heads downloaded from it have none:
+        // show only the category then (the old code failed on an empty tag list).
+        MutableText categoryInfoText = tags.length == 0
+                ? Text.translatable("tooltip.headbrowser.head-category", category.asString())
+                : Text.translatable("tooltip.headbrowser.head-category-tags", category.asString(), String.join(", ", tags));
         categoryInfoText.setStyle(Style.EMPTY.withBold(false).withColor(Formatting.DARK_GRAY));
 
         MutableText tooltipText = Text.empty();

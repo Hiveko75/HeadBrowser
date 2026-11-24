@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
+      attestations: write
 
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +40,13 @@ jobs:
         with:
           name: HeadBrowser Build
           path: build/libs/*.jar
+          retention-days: 14
+
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest@v4
+        with:
+          subject-path: 'build/libs/*.jar'
 
       - name: Release
         if: ${{ inputs.publish }}

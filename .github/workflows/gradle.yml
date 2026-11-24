@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
+      attestations: write
 
     steps:
       - uses: actions/checkout@v4
@@ -54,6 +56,12 @@ jobs:
           name: HeadBrowser Build
           path: build/libs/*.jar
           retention-days: 14
+
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest@v4
+        with:
+          subject-path: 'build/libs/*.jar'
 
       # Publishes the jar as a release of this fork, tagged with hiveko_release from
       # gradle.properties, unless that release already exists (only from a manual run with publish ticked).

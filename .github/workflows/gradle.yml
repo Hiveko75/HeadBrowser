@@ -53,6 +53,7 @@ jobs:
         with:
           name: HeadBrowser Build
           path: build/libs/*.jar
+          retention-days: 14
 
       # Publishes the jar as a release of this fork, tagged with hiveko_release from
       # gradle.properties, unless that release already exists (only from a manual run with publish ticked).

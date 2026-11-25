@@ -54,7 +54,16 @@ public class HeadBrowser implements ClientModInitializer {
         CLIENT.setScreen(new ErrorScreen(message, error));
     }
 
+    /**
+     * Vanilla Finest port: in a world the browser is only offered in creative (pause-screen button, key), and
+     * heads are only handed out there. Outside a world (title screen) it is always available.
+     */
+    public static boolean usableHere() {
+        return CLIENT.player == null || CLIENT.player.isCreative();
+    }
+
     public static void getItem(ItemStack item) {
+        if(CLIENT.player != null && !CLIENT.player.isCreative()) return; // Vanilla Finest port: creative only
         if(CLIENT.player != null) {
             CLIENT.setScreen(new InventoryScreen(CLIENT.player));
             CLIENT.player.currentScreenHandler.setCursorStack(item);

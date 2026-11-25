@@ -14,7 +14,8 @@ public class KeyBindings {
 
     public static void registerBindFunctions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (BROWSE_HEADS.wasPressed()) client.setScreen(new BrowseScreen());
+            // Vanilla Finest port: in a world only in creative
+            if (BROWSE_HEADS.wasPressed() && HeadBrowser.usableHere()) client.setScreen(new BrowseScreen());
         });
     }
 

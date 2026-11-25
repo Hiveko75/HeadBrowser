@@ -31,7 +31,8 @@ public class PauseScreenMixin extends Screen {
             )
     )
     private void addHeadBrowserButton(CallbackInfo ci, @Local(name = "iconButtonRow") LinearLayout iconButtonRow) {
-        if(CONFIG.modEnabled()  && CONFIG.pauseButton()) {
+        // Vanilla Finest port: only in creative
+        if(CONFIG.modEnabled()  && CONFIG.pauseButton() && usableHere()) {
             iconButtonRow.addChild(createBrowseButton());
         }
     }

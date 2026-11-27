@@ -72,4 +72,4 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then echo "release $TAG exists"; exit 0; fi
           JAR=$(ls build/libs/*.jar | grep -v sources)
           gh release create "$TAG" $JAR --target "$GITHUB_SHA" --title "Head Browser $TAG" \
-            --notes "Unofficial port of [Head Browser](https://modrinth.com/mod/headbrowser) by TheVoidBlock to Minecraft 26.3 (Fabric). The browse button in the title and pause screens shows a random head again (as in 2.6.1); no crash on a first start without a heads cache. Requires Fabric API, Fabric Language Kotlin and owo-lib (26.3 port)."
+            --notes "Unofficial port of [Head Browser](https://modrinth.com/mod/headbrowser) by TheVoidBlock to Minecraft 26.3 (Fabric). The browse button in the title and pause screens shows a random head again (as in 2.6.1); no crash on a first start without a heads cache. In a world the pause-screen button, the key and taking heads work only in creative. Requires Fabric API, Fabric Language Kotlin and owo-lib (26.3 port)."

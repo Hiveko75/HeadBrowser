@@ -3,10 +3,11 @@ package io.github.thevoidblock.headbrowser;
 import io.github.thevoidblock.headbrowser.gui.BrowseScreen;
 import io.github.thevoidblock.headbrowser.gui.BrowserChildCreativeInventoryScreen;
 import io.github.thevoidblock.headbrowser.gui.ErrorScreen;
+import io.github.thevoidblock.headbrowser.gui.widget.BrowseHeadsButton;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationContext;
 import net.minecraft.client.player.LocalPlayer;
@@ -89,8 +90,20 @@ public class HeadBrowser implements ClientModInitializer {
         if(CLIENT.isGameLoadFinished()) presentError(message, e.toString());
     }
 
+    /**
+     * Vanilla Finest port: heads can only be taken in creative, also in singleplayer (upstream allows it in
+     * every game mode there, which made the browser a way to cheat in survival worlds).
+     */
     public static boolean canGetHeadItem() {
-        return CLIENT.player != null && (CLIENT.player.gameMode() == GameType.CREATIVE || CLIENT.hasSingleplayerServer());
+        return CLIENT.player != null && CLIENT.player.gameMode() == GameType.CREATIVE;
+    }
+
+    /**
+     * Vanilla Finest port: in a world the browser is only offered in creative (pause-screen button, key).
+     * Outside a world (title screen) it is always available.
+     */
+    public static boolean usableHere() {
+        return CLIENT.player == null || CLIENT.player.gameMode() == GameType.CREATIVE;
     }
 
     public static void getItem(ItemStack item) {
@@ -109,10 +122,21 @@ public class HeadBrowser implements ClientModInitializer {
         }
     }
 
+    /**
+     * Square button for the icon rows of the title and pause screens. As in Head Browser up to
+     * 2.6.1, it shows a random head from the downloaded list (a new one each time the screen opens);
+     * until the list is downloaded it shows the strawberry icon of Head Browser 2.6.2+.
+     */
     public static Button createBrowseButton() {
-        return SpriteIconButton.builder(Component.empty(), _ -> BrowseScreen.open(CLIENT), true)
-                .sprite(Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse"), SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
-                .size(SQUARE_BUTTON_SIDE_LENGTH, SQUARE_BUTTON_SIDE_LENGTH)
-                .build();
+        Button button = new BrowseHeadsButton(
+                SQUARE_BUTTON_SIDE_LENGTH,
+                Component.empty(),
+                _ -> BrowseScreen.open(CLIENT),
+                // null until the head list is downloaded: the button shows the strawberry icon until then
+                () -> MinecraftHeadsAPI.HEADS.data.isEmpty() ? null : MinecraftHeadsAPI.HEADS.getRandomHead(),
+                Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse")
+        );
+        button.setTooltip(Tooltip.create(Component.translatable(format("menu.%s.wide-browse-button", MOD_ID))));
+        return button;
     }
 }

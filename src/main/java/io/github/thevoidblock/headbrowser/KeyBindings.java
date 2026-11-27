@@ -22,7 +22,8 @@ public class KeyBindings {
 
     public static void registerBindFunctions() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(BROWSE_HEADS.consumeClick()) BrowseScreen.open(client);
+            // Vanilla Finest port: in a world only in creative (the click is still consumed, so it doesn't pile up)
+            if(BROWSE_HEADS.consumeClick() && HeadBrowser.usableHere()) BrowseScreen.open(client);
         });
     }
 

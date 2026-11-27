@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static io.github.thevoidblock.headbrowser.HeadBrowser.CONFIG;
 import static io.github.thevoidblock.headbrowser.HeadBrowser.createWideBrowseButton;
+import static io.github.thevoidblock.headbrowser.HeadBrowser.usableHere;
 
 @Mixin(GameMenuScreen.class)
 public class GameMenuScreenMixin extends Screen {
@@ -27,7 +28,8 @@ public class GameMenuScreenMixin extends Screen {
             )
     )
     private void initWidgets(CallbackInfo ci, @Local GridWidget.Adder adder) {
-        if(CONFIG.modEnabled()  && CONFIG.pauseButton()) {
+        // Vanilla Finest port: only in creative
+        if(CONFIG.modEnabled()  && CONFIG.pauseButton() && usableHere()) {
             int returnToGameButtonWidth = 204;
             adder.add(createWideBrowseButton(returnToGameButtonWidth), 2);
         }

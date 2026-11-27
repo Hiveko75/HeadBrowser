@@ -59,8 +59,20 @@ public class HeadBrowser implements ClientModInitializer {
         if(CLIENT.isFinishedLoading()) presentError(message, e.toString());
     }
 
+    /**
+     * Vanilla Finest port: heads can only be taken in creative, also in singleplayer (upstream allows it in
+     * every game mode there, which made the browser a way to cheat in survival worlds).
+     */
     public static boolean canGetHeadItem() {
-        return CLIENT.player != null && (CLIENT.player.getGameMode() == GameMode.CREATIVE || CLIENT.isConnectedToLocalServer());
+        return CLIENT.player != null && CLIENT.player.getGameMode() == GameMode.CREATIVE;
+    }
+
+    /**
+     * Vanilla Finest port: in a world the browser is only offered in creative (pause-screen button, key).
+     * Outside a world (title screen) it is always available.
+     */
+    public static boolean usableHere() {
+        return CLIENT.player == null || CLIENT.player.getGameMode() == GameMode.CREATIVE;
     }
 
     public static void getItem(ItemStack item) {

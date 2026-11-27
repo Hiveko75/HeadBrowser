@@ -26,7 +26,8 @@ public class GameMenuScreenMixin extends Screen {
             )
     )
     private void initWidgets(CallbackInfo ci, @Local(name = "helper") GridLayout.RowHelper helper) {
-        if(CONFIG.modEnabled()  && CONFIG.pauseButton()) {
+        // Vanilla Finest port: only in creative
+        if(CONFIG.modEnabled()  && CONFIG.pauseButton() && usableHere()) {
             int returnToGameButtonWidth = 204;
             helper.addChild(createWideBrowseButton(returnToGameButtonWidth), 2);
         }

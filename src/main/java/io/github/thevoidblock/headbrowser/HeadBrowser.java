@@ -3,11 +3,12 @@ package io.github.thevoidblock.headbrowser;
 import io.github.thevoidblock.headbrowser.gui.BrowseScreen;
 import io.github.thevoidblock.headbrowser.gui.BrowserChildCreativeInventoryScreen;
 import io.github.thevoidblock.headbrowser.gui.ErrorScreen;
+import io.github.thevoidblock.headbrowser.gui.widget.BrowseHeadIconButton;
 import io.github.thevoidblock.headbrowser.gui.widget.BrowseHeadsButton;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationContext;
 import net.minecraft.client.player.LocalPlayer;
@@ -92,8 +93,20 @@ public class HeadBrowser implements ClientModInitializer {
         if(CLIENT.isGameLoadFinished()) presentError(message, e.toString());
     }
 
+    /**
+     * Vanilla Finest port: heads can only be taken in creative, also in singleplayer (upstream allows it in
+     * every game mode there, which made the browser a way to cheat in survival worlds).
+     */
     public static boolean canGetHeadItem() {
-        return CLIENT.player != null && (CLIENT.player.gameMode() == GameType.CREATIVE || CLIENT.isSingleplayer());
+        return CLIENT.player != null && CLIENT.player.gameMode() == GameType.CREATIVE;
+    }
+
+    /**
+     * Vanilla Finest port: in a world the browser is only offered in creative (pause-screen button, key).
+     * Outside a world (title screen) it is always available.
+     */
+    public static boolean usableHere() {
+        return CLIENT.player == null || CLIENT.player.gameMode() == GameType.CREATIVE;
     }
 
     public static void getItem(ItemStack item) {
@@ -116,10 +129,16 @@ public class HeadBrowser implements ClientModInitializer {
         int width = BROWSE_BUTTON_DIMENSIONS.width;
         int height = BROWSE_BUTTON_DIMENSIONS.height;
 
-        Button button = SpriteIconButton.builder(Component.empty(), _ -> BrowseScreen.open(CLIENT), true)
-                .sprite(Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse"), width, height)
-                .size(width, height)
-                .build();
+        // Vanilla Finest port: a random head from the downloaded list (as in 2.6.1); the strawberry until
+        // the list is downloaded
+        Button button = new BrowseHeadIconButton(
+                width,
+                Component.empty(),
+                _ -> BrowseScreen.open(CLIENT),
+                () -> MinecraftHeadsAPI.HEADS.data.isEmpty() ? null : MinecraftHeadsAPI.HEADS.getRandomHead(),
+                Identifier.fromNamespaceAndPath(MOD_ID, "icon/browse")
+        );
+        button.setTooltip(Tooltip.create(Component.translatable(format("menu.%s.wide-browse-button", MOD_ID))));
 
         button.setPosition(
                 anchorButtonX + anchorButtonWidth + BROWSE_BUTTON_OFFSET + CONFIG.titleButtonHorizontalOffset() * CONFIG.offsetMultiplier(),
